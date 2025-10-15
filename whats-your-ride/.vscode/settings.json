@@ -1,0 +1,18 @@
+{
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "debug.allowBreakpointsEverywhere": true,
+  "debug.javascript.usePreview": true,
+  "debug.javascript.codelens.npmScripts": "all",
+  "debug.node.autoAttach": "disabled",
+  "javascript.preferences.includePackageJsonAutoImports": "auto",
+  "javascript.suggest.autoImports": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "emmet.includeLanguages": {
+    "typescript": "html"
+  },
+  "files.associations": {
+    "*.ts": "typescript"
+  }
+}

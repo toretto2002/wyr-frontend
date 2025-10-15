@@ -1,7 +1,7 @@
 // Interfacce e modelli per l'autenticazione
 
 export interface LoginRequest {
-  email: string;
+  username: string;
   password: string;
 }
 

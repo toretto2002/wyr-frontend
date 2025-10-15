@@ -1,1 +1,296 @@
-<p>chat works!</p>
+﻿<!-- Racing-themed Chat Container -->
+<div class="chat-container">
+  <!-- Chat Header -->
+  <div class="chat-header">
+    <div class="header-content">
+      <div class="chat-title">
+        <h1>🏁 Racing Chat Assistant</h1>
+        <p class="subtitle">Il tuo copilota virtuale per il mondo delle due ruote</p>
+      </div>
+
+      <div class="user-info">
+        <div class="user-avatar">
+          <span>{{ userDisplayName().charAt(0).toUpperCase() }}</span>
+        </div>
+        <div class="user-details">
+          <span class="user-name">{{ userDisplayName() }}</span>
+          <span class="user-status">🟢 Online</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Actions -->
+    <div class="chat-actions">
+      <button
+        class="action-btn clear-btn"
+        (click)="clearChat()"
+        title="Pulisci chat">
+        🗑️
+      </button>
+      <button
+        class="action-btn retry-btn"
+        (click)="retryLastMessage()"
+        title="Ripeti ultimo messaggio">
+        🔄
+      </button>
+      <button
+        class="action-btn test-btn"
+        (click)="testFormattedResponse()"
+        title="Test risposta formattata">
+        🧪
+      </button>
+    </div>
+  </div>
+
+  <!-- Messages Area -->
+  <div class="messages-container" #messagesContainer>
+    <div class="messages-list">
+      @for (message of messages(); track message.id) {
+        <div class="message-wrapper"
+             [class.user-message]="message.sender === 'user'"
+             [class.bot-message]="message.sender === 'bot'">
+
+          <!-- Bot Avatar -->
+          @if (message.sender === 'bot') {
+            <div class="message-avatar bot-avatar">
+              @if (message.isTyping) {
+                <div class="typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              } @else {
+                <span>🤖</span>
+              }
+            </div>
+          }
+
+          <!-- Message Bubble -->
+          <div class="message-bubble"
+               [class.typing-bubble]="message.isTyping">
+            @if (message.isTyping) {
+              <div class="typing-animation">
+                <span class="typing-text">Il copilota sta pensando</span>
+                <div class="typing-dots">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+            } @else {
+              <div class="message-content">
+                <!-- Risposta Strutturata -->
+                @if (message.formattedResponse && (message.formattedResponse.shortAnswer || message.formattedResponse.details)) {
+                  <div class="structured-response">
+
+                    <!-- Risposta Breve -->
+                    @if (message.formattedResponse.shortAnswer) {
+                      <div class="short-answer-section">
+                        <h3 class="section-title">
+                          <span class="section-number">1️⃣</span>
+                          Risposta Breve
+                        </h3>
+                        <p class="short-answer-content" [innerHTML]="message.formattedResponse.shortAnswer"></p>
+                      </div>
+                    }
+
+                    <!-- Tabella Dettagli Moto -->
+                    @if (message.formattedResponse.details) {
+                      <div class="details-section">
+                        <h3 class="section-title">
+                          <span class="section-number">2️⃣</span>
+                          {{ message.formattedResponse.details.title || 'Dettagli' }}
+                        </h3>
+
+                        <div class="motorcycle-grid">
+                          @for (moto of message.formattedResponse.details.rows; track $index) {
+                            <div class="motorcycle-card">
+                              <div class="card-header">
+                                <h4 class="moto-brand">{{ moto.brand }}</h4>
+                                <div class="moto-model">{{ moto.model }}</div>
+                                @if (moto.version) {
+                                  <div class="moto-version">{{ moto.version }}</div>
+                                }
+                              </div>
+
+                              <div class="card-specs">
+                                <div class="spec-item power-spec">
+                                  <span class="spec-icon">⚡</span>
+                                  <span class="spec-label">Potenza</span>
+                                  <span class="spec-value">{{ moto.power }} hp</span>
+                                </div>
+
+                                @if (moto.weight) {
+                                  <div class="spec-item weight-spec">
+                                    <span class="spec-icon">⚖️</span>
+                                    <span class="spec-label">Peso</span>
+                                    <span class="spec-value">{{ moto.weight }} kg</span>
+                                  </div>
+                                }
+
+                                <div class="spec-item price-spec">
+                                  <span class="spec-icon">💰</span>
+                                  <span class="spec-label">Prezzo</span>
+                                  <span class="spec-value">{{ moto.price | currency:'EUR':'symbol':'1.0-0' }}</span>
+                                </div>
+                              </div>
+
+                              @if (moto.notes) {
+                                <div class="card-notes">
+                                  <span class="notes-icon">💡</span>
+                                  <p>{{ moto.notes }}</p>
+                                </div>
+                              }
+                            </div>
+                          }
+                        </div>
+                      </div>
+                    }
+
+                    <!-- Suggerimenti -->
+                    @if (message.formattedResponse.suggestions && message.formattedResponse.suggestions.length > 0) {
+                      <div class="suggestions-section">
+                        <h3 class="section-title">
+                          <span class="section-number">3️⃣</span>
+                          Suggerimenti per Affinare la Ricerca
+                        </h3>
+                        <ul class="suggestions-list">
+                          @for (suggestion of message.formattedResponse.suggestions; track $index) {
+                            <li class="suggestion-item">
+                              <span class="suggestion-icon">🔍</span>
+                              {{ suggestion }}
+                            </li>
+                          }
+                        </ul>
+                      </div>
+                    }
+                  </div>
+                } @else {
+                  <!-- Fallback alla visualizzazione normale -->
+                  <p [innerHTML]="message.content"></p>
+                }
+
+                <!-- SQL Query and Results (if available) -->
+                @if (message.sqlQuery || message.sqlResults) {
+                  <div class="sql-info">
+                    @if (message.sqlQuery) {
+                      <div class="sql-query">
+                        <h4>🔍 Query eseguita:</h4>
+                        <code>{{ message.sqlQuery }}</code>
+                      </div>
+                    }
+                    @if (message.sqlResults && message.sqlResults.length > 0) {
+                      <div class="sql-results">
+                        <h4>📊 Risultati trovati: {{ message.sqlResults.length }}</h4>
+                        <div class="results-preview">
+                          @for (result of message.sqlResults.slice(0, 3); track $index) {
+                            <div class="result-item">{{ result }}</div>
+                          }
+                          @if (message.sqlResults.length > 3) {
+                            <div class="more-results">...e altri {{ message.sqlResults.length - 3 }} risultati</div>
+                          }
+                        </div>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+              <div class="message-meta">
+                <span class="timestamp">
+                  {{ message.timestamp | date:'HH:mm' }}
+                </span>
+                @if (message.sender === 'user') {
+                  <span class="status">✓</span>
+                }
+              </div>
+            }
+          </div>
+
+          <!-- User Avatar -->
+          @if (message.sender === 'user') {
+            <div class="message-avatar user-avatar">
+              <span>{{ userDisplayName().charAt(0).toUpperCase() }}</span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Input Area -->
+  <div class="input-container">
+    <div class="input-wrapper">
+      <!-- Typing Indicator -->
+      @if (isTyping()) {
+        <div class="global-typing-indicator">
+          <span>🤖 Il copilota sta digitando...</span>
+        </div>
+      }
+
+      <!-- Message Input Form -->
+      <div class="message-input-form">
+        <div class="input-group">
+          <textarea
+            #messageInput
+            class="message-input"
+            [value]="currentMessage()"
+            (input)="onMessageInputChange($any($event.target).value)"
+            (keydown)="onKeyPress($event)"
+            placeholder="Chiedi qualsiasi cosa sulle moto... 🏍️"
+            rows="1"
+            [disabled]="isLoading()">
+          </textarea>
+
+          <button
+            class="send-button"
+            (click)="onSendMessage()"
+            [disabled]="!currentMessage().trim() || isLoading()"
+            [class.loading]="isLoading()">
+            @if (isLoading()) {
+              <span class="loading-spinner"></span>
+            } @else {
+              <span class="send-icon">🚀</span>
+            }
+          </button>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <button
+            class="quick-action-btn"
+            (click)="onMessageInputChange('Ciao! Come stai?')"
+            [disabled]="isLoading()">
+            👋 Saluta
+          </button>
+          <button
+            class="quick-action-btn"
+            (click)="onMessageInputChange('Moto per principianti con potenza fino a 50 hp')"
+            [disabled]="isLoading()">
+            🏍️ Moto Principianti
+          </button>
+          <button
+            class="quick-action-btn"
+            (click)="onMessageInputChange('Aiuto per principianti')"
+            [disabled]="isLoading()">
+            🆘 Aiuto
+          </button>
+          <button
+            class="quick-action-btn"
+            (click)="onMessageInputChange('Confronto modelli moto')"
+            [disabled]="isLoading()">
+            📊 Confronti
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Racing Status Bar -->
+    <div class="status-bar">
+      <div class="status-indicators">
+        <span class="indicator online">🟢 Sistema Online</span>
+        <span class="indicator">💨 Velocità: Turbo</span>
+        <span class="indicator">🏁 Messaggi: {{ messages().length }}</span>
+      </div>
+    </div>
+  </div>
+</div>

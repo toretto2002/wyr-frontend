@@ -6,8 +6,72 @@
       "name": "ng serve",
       "type": "chrome",
       "request": "launch",
-      "preLaunchTask": "npm: start",
-      "url": "http://localhost:4200/"
+      "preLaunchTask": "npm: start with nvs",
+      "url": "http://localhost:4200/",
+      "webRoot": "${workspaceFolder}/src",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:/*": "${webRoot}/*",
+        "/./*": "${webRoot}/*",
+        "/src/*": "${webRoot}/*",
+        "/*": "*",
+        "/./~/*": "${webRoot}/../node_modules/*"
+      },
+      "userDataDir": "${workspaceFolder}/.vscode/chrome_debug_user_data",
+      "smartStep": true,
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "ng serve (Angular CLI)",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "ng: serve with nvs",
+      "url": "http://localhost:4200/",
+      "webRoot": "${workspaceFolder}/src",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:/*": "${webRoot}/*",
+        "/./*": "${webRoot}/*",
+        "/src/*": "${webRoot}/*",
+        "/*": "*",
+        "/./~/*": "${webRoot}/../node_modules/*"
+      },
+      "userDataDir": "${workspaceFolder}/.vscode/chrome_debug_user_data",
+      "smartStep": true,
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "ng serve (Edge)",
+      "type": "msedge",
+      "request": "launch",
+      "preLaunchTask": "npm: start with nvs",
+      "url": "http://localhost:4200/",
+      "webRoot": "${workspaceFolder}/src",
+      "sourceMapPathOverrides": {
+        "webpack:/*": "${webRoot}/*",
+        "/./*": "${webRoot}/*",
+        "/src/*": "${webRoot}/*",
+        "/*": "*",
+        "/./~/*": "${webRoot}/../node_modules/*"
+      }
+    },
+    {
+      "name": "Attach to Chrome",
+      "type": "chrome",
+      "request": "attach",
+      "port": 9222,
+      "webRoot": "${workspaceFolder}/src",
+      "sourceMapPathOverrides": {
+        "webpack:/*": "${webRoot}/*",
+        "/./*": "${webRoot}/*",
+        "/src/*": "${webRoot}/*",
+        "/*": "*",
+        "/./~/*": "${webRoot}/../node_modules/*"
+      }
     },
     {
       "name": "ng test",
@@ -15,6 +79,26 @@
       "request": "launch",
       "preLaunchTask": "npm: test",
       "url": "http://localhost:9876/debug.html"
+    },
+    {
+      "name": "Angular Debug (Improved)",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "ng: serve with nvs",
+      "url": "http://localhost:4200/",
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:///./*": "${workspaceFolder}/*",
+        "webpack:///src/*": "${workspaceFolder}/src/*",
+        "webpack:///*": "*"
+      },
+      "userDataDir": "${workspaceFolder}/.vscode/chrome_debug_user_data_improved",
+      "smartStep": true,
+      "skipFiles": [
+        "<node_internals>/**",
+        "node_modules/**"
+      ]
     }
   ]
 }

@@ -3,9 +3,102 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "type": "shell",
+      "label": "nvs: use node 22",
+      "command": "nvs",
+      "args": ["use", "22"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "npm: start with nvs",
+      "command": "cmd",
+      "args": ["/c", "nvs use 22 && ng serve --configuration=development"],
+      "group": "build",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "Local:.*(http://\\S+)|bundle generation complete"
+          }
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
       "type": "npm",
       "script": "start",
+      "label": "npm: start",
+      "group": "build",
       "isBackground": true,
+      "dependsOn": "nvs: use node 22",
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "Local:.*(http://\\S+)|bundle generation complete"
+          }
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "type": "shell",
+      "label": "ng: serve with nvs",
+      "command": "cmd",
+      "args": ["/c", "nvs use 22 && ng serve --configuration=development"],
+      "group": "build",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "webpack",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*webpack.*",
+          "endsPattern": ".*Local:.*http://localhost:\\d+.*"
+        }
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "type": "npm",
+      "script": "test",
+      "label": "npm: test",
+      "group": "test",
+      "isBackground": true,
+      "dependsOn": "nvs: use node 22",
       "problemMatcher": {
         "owner": "typescript",
         "pattern": "$tsc",
@@ -21,20 +114,19 @@
       }
     },
     {
-      "type": "npm",
-      "script": "test",
+      "type": "shell",
+      "label": "ng: serve",
+      "command": "ng",
+      "args": ["serve"],
+      "group": "build",
       "isBackground": true,
+      "dependsOn": "nvs: use node 22",
       "problemMatcher": {
-        "owner": "typescript",
-        "pattern": "$tsc",
+        "owner": "webpack",
         "background": {
           "activeOnStart": true,
-          "beginsPattern": {
-            "regexp": "(.*?)"
-          },
-          "endsPattern": {
-            "regexp": "bundle generation complete"
-          }
+          "beginsPattern": ".*webpack.*",
+          "endsPattern": ".*Local:.*http://localhost:\\d+.*"
         }
       }
     }

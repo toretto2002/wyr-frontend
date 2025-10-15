@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit {
     this.loginError.set(null);
 
     const credentials: LoginRequest = {
-      email: this.loginForm.value.email.trim(),
+      username: this.loginForm.value.email.trim(),
       password: this.loginForm.value.password
     };
 
@@ -174,7 +174,7 @@ export class LoginComponent implements OnInit {
   // Metodo per login demo/guest
   onGuestLogin(): void {
     const guestCredentials: LoginRequest = {
-      email: 'guest@whatyourride.com',
+      username: 'guest@whatyourride.com',
       password: 'guest123'
     };
 

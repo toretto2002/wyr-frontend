@@ -8,13 +8,15 @@ import { AuthService } from './auth.service';
 const INTERCEPTOR_CONFIG = {
   // URL che richiedono autenticazione
   PROTECTED_URLS: [
-    'http://localhost:3000/api',  // Il tuo backend
+    'http://localhost:5000',  // Il tuo backend auth
+    'http://localhost:3000/api',  // Altri backend
     'https://your-api-domain.com/api',  // Produzione
     '/api'  // Relative URLs
   ],
 
   // URL che NON devono avere il token (whitelist)
   EXCLUDED_URLS: [
+    '/login',
     '/auth/login',
     '/auth/register',
     '/auth/reset-password',

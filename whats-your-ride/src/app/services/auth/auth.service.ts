@@ -117,6 +117,9 @@ export class AuthService {
     credentials: LoginRequest,
     rememberMe: boolean = false
   ): Observable<LoginResponse> {
+    console.log('🚀 Login started with credentials:', credentials);
+    console.log('🌐 API Endpoint:', this.AUTH_ENDPOINTS.LOGIN);
+
     this.updateAuthState({
       ...this._authState(),
       isLoading: true,
@@ -127,12 +130,24 @@ export class AuthService {
       .post<LoginResponse>(this.AUTH_ENDPOINTS.LOGIN, credentials)
       .pipe(
         tap((response) => {
+          console.log('✅ Login response received:', response);
           if (response.success && response.data) {
+            console.log('🎉 Login successful, handling success...');
             this.handleLoginSuccess(response.data, rememberMe);
+          } else {
+            console.warn('⚠️ Login response indicates failure:', response);
+            // Log dell'errore specifico se presente
+            if (response.error) {
+              console.error('❌ Server error:', response.error);
+            }
           }
         }),
-        catchError((error) => this.handleAuthError(error)),
+        catchError((error) => {
+          console.error('❌ Login error caught:', error);
+          return this.handleAuthError(error);
+        }),
         finalize(() => {
+          console.log('🔄 Login process completed, setting loading to false');
           this.updateAuthState({ ...this._authState(), isLoading: false });
         })
       );
@@ -291,7 +306,16 @@ export class AuthService {
       errorMessage = 'Errore di connessione al server';
     } else if (error.error?.message) {
       errorMessage = error.error.message;
+    } else if (error.error?.error) {
+      errorMessage = error.error.error;
     }
+
+    console.error('🔥 Auth error details:', {
+      status: error.status,
+      statusText: error.statusText,
+      errorBody: error.error,
+      message: errorMessage
+    });
 
     this.updateAuthState({
       ...this._authState(),
