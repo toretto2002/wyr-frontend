@@ -1,0 +1,938 @@
+// Racing Style Login Page - Dark Theme
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at center, #1a1a1a 0%, #000000 100%);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+
+  // Racing background pattern
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 2px,
+        rgba(220, 38, 38, 0.03) 2px,
+        rgba(220, 38, 38, 0.03) 4px
+      );
+    z-index: 1;
+  }
+
+  // Speed lines effect
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(220, 38, 38, 0.8) 50%,
+      transparent 100%
+    );
+    transform: translateY(-50%);
+    z-index: 1;
+    opacity: 0.6;
+  }
+}
+
+// Alert per messaggi di errore
+.alert {
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  animation: slideDown 0.3s ease-out;
+
+  &.alert-error {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.1) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+
+    .alert-icon {
+      color: #ef4444;
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.login-card {
+  background: linear-gradient(145deg, #1f1f1f 0%, #111111 100%);
+  padding: 3rem 2.5rem;
+  border-radius: 20px;
+  border: 2px solid rgba(220, 38, 38, 0.3);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 30px rgba(220, 38, 38, 0.2);
+  width: 100%;
+  max-width: 450px;
+  position: relative;
+  z-index: 2;
+  backdrop-filter: blur(10px);
+
+  // Racing stripe accent
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, 
+      transparent 0%,
+      #dc2626 20%,
+      #ef4444 50%,
+      #dc2626 80%,
+      transparent 100%
+    );
+    border-radius: 0 0 4px 4px;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    position: relative;
+    
+    // Racing font effect
+    text-shadow: 
+      0 0 10px rgba(220, 38, 38, 0.5),
+      0 2px 4px rgba(0, 0, 0, 0.8);
+
+    &::after {
+      content: 'RACING LOGIN';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      color: #dc2626;
+      letter-spacing: 2px;
+      margin-top: 0.5rem;
+      font-weight: 400;
+    }
+  }
+}
+
+.login-form {
+  .form-group {
+    margin-bottom: 2rem;
+    position: relative;
+
+    label {
+      display: block;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+      color: #e5e5e5;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 20px;
+        height: 2px;
+        background: #dc2626;
+        border-radius: 1px;
+      }
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      padding-right: 3rem; // Spazio per icone
+      background: rgba(15, 15, 15, 0.8);
+      border: 2px solid rgba(55, 55, 55, 0.8);
+      border-radius: 12px;
+      font-size: 1rem;
+      color: #ffffff;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-sizing: border-box;
+      backdrop-filter: blur(5px);
+
+      &::placeholder {
+        color: rgba(156, 163, 175, 0.6);
+        font-style: italic;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #dc2626;
+        background: rgba(20, 20, 20, 0.9);
+        box-shadow: 
+          0 0 0 4px rgba(220, 38, 38, 0.1),
+          0 0 20px rgba(220, 38, 38, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      &.error {
+        border-color: #ef4444;
+        background: rgba(239, 68, 68, 0.1);
+        animation: shake 0.5s ease-in-out;
+
+        &:focus {
+          border-color: #ef4444;
+          box-shadow: 
+            0 0 0 4px rgba(239, 68, 68, 0.2),
+            0 0 20px rgba(239, 68, 68, 0.4);
+        }
+      }
+    }
+
+    .input-icon {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(156, 163, 175, 0.8);
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+      z-index: 1;
+
+      &:hover {
+        color: #dc2626;
+      }
+    }
+
+    .error-message {
+      margin-top: 0.8rem;
+      color: #ef4444;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      &::before {
+        content: '⚠';
+        font-size: 1rem;
+      }
+    }
+  }
+
+  // Opzioni del form (Remember me, Forgot password)
+  .form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .checkbox-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      cursor: pointer;
+      user-select: none;
+
+      input[type="checkbox"] {
+        display: none;
+      }
+
+      .checkmark {
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(55, 55, 55, 0.8);
+        border-radius: 4px;
+        background: rgba(15, 15, 15, 0.8);
+        position: relative;
+        transition: all 0.3s ease;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 2px;
+          left: 6px;
+          width: 6px;
+          height: 10px;
+          border: solid #dc2626;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+      }
+
+      input:checked + .checkmark {
+        background: rgba(220, 38, 38, 0.2);
+        border-color: #dc2626;
+
+        &::after {
+          opacity: 1;
+        }
+      }
+
+      .checkbox-label {
+        color: #e5e5e5;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+    }
+
+    .forgot-password-link {
+      background: none;
+      border: none;
+      color: #dc2626;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: underline;
+      cursor: pointer;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #ef4444;
+      }
+    }
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 1.2rem;
+    background: linear-gradient(135deg, 
+      #dc2626 0%, 
+      #b91c1c 25%, 
+      #991b1b 50%, 
+      #7f1d1d 75%, 
+      #450a0a 100%
+    );
+    color: #ffffff;
+    border: 2px solid #dc2626;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+
+    // Racing stripe effect
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        transparent 100%
+      );
+      transition: left 0.6s ease;
+    }
+
+    &:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 
+        0 8px 25px rgba(220, 38, 38, 0.4),
+        0 0 30px rgba(220, 38, 38, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      border-color: #ef4444;
+
+      &::before {
+        left: 100%;
+      }
+    }
+
+    &:active {
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      filter: grayscale(30%);
+    }
+
+    &.loading {
+      background: linear-gradient(135deg, 
+        #374151 0%, 
+        #1f2937 50%, 
+        #111827 100%
+      );
+      border-color: #374151;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top: 2px solid #ffffff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+    }
+  }
+
+  // Azioni secondarie
+  .secondary-actions {
+    margin-top: 2rem;
+    text-align: center;
+
+    .btn-secondary {
+      background: none;
+      border: 2px solid rgba(55, 55, 55, 0.8);
+      color: #e5e5e5;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      margin-bottom: 1rem;
+
+      &:hover {
+        border-color: #dc2626;
+        color: #dc2626;
+        background: rgba(220, 38, 38, 0.05);
+      }
+
+      strong {
+        color: #dc2626;
+      }
+    }
+
+    .divider {
+      margin: 1.5rem 0;
+      position: relative;
+      text-align: center;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: rgba(55, 55, 55, 0.5);
+      }
+
+      span {
+        background: linear-gradient(145deg, #1f1f1f 0%, #111111 100%);
+        color: rgba(156, 163, 175, 0.8);
+        padding: 0 1rem;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        z-index: 1;
+      }
+    }
+
+    .btn-guest {
+      background: linear-gradient(135deg, rgba(55, 55, 55, 0.8) 0%, rgba(30, 30, 30, 0.8) 100%);
+      border: 1px solid rgba(75, 75, 75, 0.6);
+      color: #e5e5e5;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+
+      &:hover:not(:disabled) {
+        background: linear-gradient(135deg, rgba(75, 75, 75, 0.8) 0%, rgba(45, 45, 45, 0.8) 100%);
+        border-color: rgba(156, 163, 175, 0.4);
+        transform: translateY(-1px);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+// Debug section with racing theme
+.debug-info {
+  margin-top: 2.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(145deg, #0f0f0f 0%, #1a1a1a 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  backdrop-filter: blur(5px);
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #dc2626;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  p {
+    margin: 0.5rem 0;
+    font-size: 0.85rem;
+    color: #9ca3af;
+    font-family: 'Courier New', monospace;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.5rem;
+    border-radius: 6px;
+    border-left: 3px solid #dc2626;
+  }
+}
+
+// Animations
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .login-container {
+    padding: 15px;
+  }
+
+  .login-card {
+    padding: 2rem 1.5rem;
+    max-width: 90%;
+
+    h1 {
+      font-size: 1.6rem;
+      letter-spacing: 2px;
+    }
+  }
+
+  .login-form {
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-options {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+
+      .checkbox-wrapper {
+        justify-content: center;
+      }
+
+      .forgot-password-link {
+        text-align: center;
+      }
+    }
+
+    .btn-primary {
+      padding: 1rem;
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.5rem 1rem;
+    border-radius: 16px;
+
+    h1 {
+      font-size: 1.4rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .login-form {
+    .form-control {
+      padding: 0.9rem 1rem;
+      padding-right: 3rem;
+    }
+  }
+}.login-card {
+  background: linear-gradient(145deg, #1f1f1f 0%, #111111 100%);
+  padding: 3rem 2.5rem;
+  border-radius: 20px;
+  border: 2px solid rgba(220, 38, 38, 0.3);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 30px rgba(220, 38, 38, 0.2);
+  width: 100%;
+  max-width: 450px;
+  position: relative;
+  z-index: 2;
+  backdrop-filter: blur(10px);
+
+  // Racing stripe accent
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      #dc2626 20%,
+      #ef4444 50%,
+      #dc2626 80%,
+      transparent 100%
+    );
+    border-radius: 0 0 4px 4px;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    position: relative;
+
+    // Racing font effect
+    text-shadow:
+      0 0 10px rgba(220, 38, 38, 0.5),
+      0 2px 4px rgba(0, 0, 0, 0.8);
+
+    &::after {
+      content: 'RACING LOGIN';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      color: #dc2626;
+      letter-spacing: 2px;
+      margin-top: 0.5rem;
+      font-weight: 400;
+    }
+  }
+}
+
+.login-form {
+  .form-group {
+    margin-bottom: 2rem;
+    position: relative;
+
+    label {
+      display: block;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+      color: #e5e5e5;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 20px;
+        height: 2px;
+        background: #dc2626;
+        border-radius: 1px;
+      }
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      background: rgba(15, 15, 15, 0.8);
+      border: 2px solid rgba(55, 55, 55, 0.8);
+      border-radius: 12px;
+      font-size: 1rem;
+      color: #ffffff;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-sizing: border-box;
+      backdrop-filter: blur(5px);
+
+      &::placeholder {
+        color: rgba(156, 163, 175, 0.6);
+        font-style: italic;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #dc2626;
+        background: rgba(20, 20, 20, 0.9);
+        box-shadow:
+          0 0 0 4px rgba(220, 38, 38, 0.1),
+          0 0 20px rgba(220, 38, 38, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      &.error {
+        border-color: #ef4444;
+        background: rgba(239, 68, 68, 0.1);
+        animation: shake 0.5s ease-in-out;
+
+        &:focus {
+          border-color: #ef4444;
+          box-shadow:
+            0 0 0 4px rgba(239, 68, 68, 0.2),
+            0 0 20px rgba(239, 68, 68, 0.4);
+        }
+      }
+    }
+
+    .error-message {
+      margin-top: 0.8rem;
+      color: #ef4444;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      &::before {
+        content: '⚠';
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 1.2rem;
+    background: linear-gradient(135deg,
+      #dc2626 0%,
+      #b91c1c 25%,
+      #991b1b 50%,
+      #7f1d1d 75%,
+      #450a0a 100%
+    );
+    color: #ffffff;
+    border: 2px solid #dc2626;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+
+    // Racing stripe effect
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        transparent 100%
+      );
+      transition: left 0.6s ease;
+    }
+
+    &:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow:
+        0 8px 25px rgba(220, 38, 38, 0.4),
+        0 0 30px rgba(220, 38, 38, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      border-color: #ef4444;
+
+      &::before {
+        left: 100%;
+      }
+    }
+
+    &:active {
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      filter: grayscale(30%);
+    }
+
+    &.loading {
+      background: linear-gradient(135deg,
+        #374151 0%,
+        #1f2937 50%,
+        #111827 100%
+      );
+      border-color: #374151;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top: 2px solid #ffffff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+    }
+  }
+}
+
+// Debug section with racing theme
+.debug-info {
+  margin-top: 2.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(145deg, #0f0f0f 0%, #1a1a1a 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  backdrop-filter: blur(5px);
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #dc2626;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  p {
+    margin: 0.5rem 0;
+    font-size: 0.85rem;
+    color: #9ca3af;
+    font-family: 'Courier New', monospace;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.5rem;
+    border-radius: 6px;
+    border-left: 3px solid #dc2626;
+  }
+}
+
+// Animations
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .login-container {
+    padding: 15px;
+  }
+
+  .login-card {
+    padding: 2rem 1.5rem;
+    max-width: 90%;
+
+    h1 {
+      font-size: 1.6rem;
+      letter-spacing: 2px;
+    }
+  }
+
+  .login-form {
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-primary {
+      padding: 1rem;
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.5rem 1rem;
+    border-radius: 16px;
+
+    h1 {
+      font-size: 1.4rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .login-form {
+    .form-control {
+      padding: 0.9rem 1rem;
+    }
+  }
+}

@@ -1,0 +1,96 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <div class="header-content">
+      <h1>🏁 What's Your Ride Dashboard</h1>
+      <div class="user-info">
+        <span class="welcome-text">
+          Benvenuto, <strong>{{ auth.currentUser()?.displayName || auth.currentUser()?.email }}</strong>!
+        </span>
+        <button class="logout-btn" (click)="onLogout()">
+          🚪 Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-main">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">🏍️</div>
+        <div class="stat-content">
+          <h3>Le Tue Moto</h3>
+          <p class="stat-number">3</p>
+          <button class="action-btn" (click)="navigateToGarage()">
+            Vai al Garage
+          </button>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-content">
+          <h3>Km Totali</h3>
+          <p class="stat-number">15,420</p>
+          <span class="stat-subtitle">Quest'anno</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🏆</div>
+        <div class="stat-content">
+          <h3>Achievement</h3>
+          <p class="stat-number">12</p>
+          <span class="stat-subtitle">Sbloccati</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">⚙️</div>
+        <div class="stat-content">
+          <h3>Profilo</h3>
+          <button class="action-btn" (click)="navigateToProfile()">
+            Modifica Profilo
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="recent-activity">
+      <h2>🕐 Attività Recente</h2>
+      <div class="activity-list">
+        <div class="activity-item">
+          <div class="activity-icon">🏍️</div>
+          <div class="activity-content">
+            <p><strong>Nuovo giro registrato</strong></p>
+            <span class="activity-time">2 ore fa</span>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-icon">🔧</div>
+          <div class="activity-content">
+            <p><strong>Manutenzione programmata</strong></p>
+            <span class="activity-time">1 giorno fa</span>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-icon">📷</div>
+          <div class="activity-content">
+            <p><strong>Nuova foto aggiunta</strong></p>
+            <span class="activity-time">3 giorni fa</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Debug info -->
+  <div class="debug-info" *ngIf="auth.isAuthenticated()">
+    <h4>🐛 Debug Auth Status:</h4>
+    <p>Autenticato: {{ auth.isAuthenticated() }}</p>
+    <p>User ID: {{ auth.currentUser()?.id }}</p>
+    <p>Token presente: {{ !!auth.getToken() }}</p>
+    <p>Ruoli: {{ auth.currentUser()?.roles?.join(', ') || 'Nessuno' }}</p>
+  </div>
+</div>

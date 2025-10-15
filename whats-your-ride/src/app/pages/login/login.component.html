@@ -1,0 +1,121 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1>Login</h1>
+    
+    <!-- Messaggio di errore globale -->
+    <div class="alert alert-error" *ngIf="loginError() || authError">
+      <span class="alert-icon">⚠</span>
+      <span>{{ loginError() || authError }}</span>
+    </div>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <!-- Campo Email -->
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <div class="input-wrapper">
+          <input 
+            type="email" 
+            id="email" 
+            formControlName="email"
+            class="form-control"
+            [class.error]="hasError('email')"
+            placeholder="Inserisci la tua email"
+            autocomplete="email">
+          <span class="input-icon">📧</span>
+        </div>
+        
+        <div class="error-message" *ngIf="hasError('email')">
+          {{ getErrorMessage('email') }}
+        </div>
+      </div>
+
+      <!-- Campo Password -->
+      <div class="form-group">
+        <label for="password">Password *</label>
+        <div class="input-wrapper">
+          <input 
+            [type]="showPassword() ? 'text' : 'password'" 
+            id="password" 
+            formControlName="password"
+            class="form-control"
+            [class.error]="hasError('password')"
+            placeholder="Inserisci la tua password"
+            autocomplete="current-password">
+          <button 
+            type="button" 
+            class="password-toggle"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword() ? 'Nascondi password' : 'Mostra password'">
+            {{ showPassword() ? '🙈' : '👁️' }}
+          </button>
+        </div>
+        
+        <div class="error-message" *ngIf="hasError('password')">
+          {{ getErrorMessage('password') }}
+        </div>
+      </div>
+
+      <!-- Remember Me e Forgot Password -->
+      <div class="form-options">
+        <label class="checkbox-wrapper" (click)="toggleRememberMe()">
+          <input 
+            type="checkbox" 
+            [checked]="rememberMe()"
+            readonly>
+          <span class="checkmark"></span>
+          <span class="checkbox-label">Ricordami</span>
+        </label>
+        
+        <button 
+          type="button" 
+          class="forgot-password-link"
+          (click)="onForgotPassword()">
+          Password dimenticata?
+        </button>
+      </div>
+
+      <!-- Pulsante Submit -->
+      <div class="form-group">
+        <button 
+          type="submit" 
+          class="btn-primary"
+          [disabled]="isLoading"
+          [class.loading]="isLoading">
+          <span *ngIf="!isLoading">Accedi al Racing World</span>
+          <span *ngIf="isLoading">Accesso in corso...</span>
+        </button>
+      </div>
+
+      <!-- Azioni secondarie -->
+      <div class="secondary-actions">
+        <button 
+          type="button" 
+          class="btn-secondary"
+          (click)="onSignUp()">
+          Non hai un account? <strong>Registrati</strong>
+        </button>
+        
+        <div class="divider">
+          <span>oppure</span>
+        </div>
+        
+        <button 
+          type="button" 
+          class="btn-guest"
+          (click)="onGuestLogin()"
+          [disabled]="isLoading">
+          🏁 Accesso Guest
+        </button>
+      </div>
+
+      <!-- Debug info (rimuovi in produzione) -->
+      <div class="debug-info" *ngIf="loginForm.dirty && !isLoading">
+        <h4>Debug Info:</h4>
+        <p>Form valido: {{ loginForm.valid }}</p>
+        <p>Remember me: {{ rememberMe() }}</p>
+        <p>Autenticato: {{ authService.isAuthenticated() }}</p>
+        <p>Utente corrente: {{ authService.currentUser()?.email || 'Nessuno' }}</p>
+      </div>
+    </form>
+  </div>
+</div>
