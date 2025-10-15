@@ -23,9 +23,11 @@ export interface MotorcycleRow {
   brand: string;
   model: string;
   version: string;
-  power: number;
-  weight?: number;
-  price: number;
+  displacement: string;
+  power: string;
+  dryWeight: string;
+  fullWeight: string;
+  price: string;
   notes: string;
   [key: string]: any; // Per eventuali colonne aggiuntive
 }
